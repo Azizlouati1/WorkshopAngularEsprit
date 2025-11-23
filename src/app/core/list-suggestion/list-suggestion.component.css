@@ -1,0 +1,11 @@
+.badge {
+  font-size: 0.9em;
+}
+.btn-outline-heart {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+.btn-outline-heart:hover {
+  background-color: #dc3545;
+  color: white;
+}

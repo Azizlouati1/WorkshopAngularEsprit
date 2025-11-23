@@ -1,0 +1,171 @@
+<div class="bg-light min-vh-100 py-5">
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+      <h1 class="display-4 fw-bold text-primary mb-3">
+        <i class="bi bi-stars text-warning"></i> Liste des Suggestions
+      </h1>
+      <p class="lead text-muted">Découvrez et soutenez les meilleures idées de notre communauté</p>
+    </div>
+
+    <!-- Search bar with enhanced styling -->
+    <div class="row justify-content-center mb-5">
+      <div class="col-lg-8">
+        <div class="input-group input-group-lg shadow-sm">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-search text-primary"></i>
+          </span>
+          <input 
+            type="text" 
+            class="form-control border-start-0 ps-0" 
+            placeholder="Rechercher par titre ou catégorie..." 
+            [(ngModel)]="searchTerm">
+          <button class="btn btn-primary" type="button">
+            <i class="bi bi-funnel-fill me-2"></i>Filtrer
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row g-3 mb-5">
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center bg-success text-white">
+          <div class="card-body">
+            <i class="bi bi-check-circle-fill fs-1"></i>
+            <h3 class="mt-2 mb-0">{{ acceptedCount }}</h3>
+            <small>Acceptées</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center bg-warning text-white">
+          <div class="card-body">
+            <i class="bi bi-clock-fill fs-1"></i>
+            <h3 class="mt-2 mb-0">{{ pendingCount }}</h3>
+            <small>En Attente</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center bg-danger text-white">
+          <div class="card-body">
+            <i class="bi bi-x-circle-fill fs-1"></i>
+            <h3 class="mt-2 mb-0">{{ refusedCount }}</h3>
+            <small>Refusées</small>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center bg-info text-white">
+          <div class="card-body">
+            <i class="bi bi-heart-fill fs-1"></i>
+            <h3 class="mt-2 mb-0">{{ favorites.length }}</h3>
+            <small>Favoris</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- List of suggestions with enhanced cards -->
+    <div class="row g-4">
+      <div class="col-lg-6" *ngFor="let suggestion of filteredSuggestions">
+        <div class="card border-0 shadow-sm h-100 hover-card">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <h5 class="card-title fw-bold text-dark mb-0">
+                {{ suggestion.title }}
+              </h5>
+              <span class="badge rounded-pill fs-6 px-3" 
+                    [ngClass]="{
+                      'bg-success': suggestion.status === 'acceptee',
+                      'bg-danger': suggestion.status === 'refusee',
+                      'bg-warning text-dark': suggestion.status === 'en_attente'
+                    }">
+                <i class="bi me-1" 
+                   [ngClass]="{
+                     'bi-check-circle': suggestion.status === 'acceptee',
+                     'bi-x-circle': suggestion.status === 'refusee',
+                     'bi-clock': suggestion.status === 'en_attente'
+                   }"></i>
+                {{ suggestion.status === 'en_attente' ? 'En Attente' : 
+                   suggestion.status === 'acceptee' ? 'Acceptée' : 'Refusée' }}
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <span class="badge bg-primary me-2">
+                <i class="bi bi-tag-fill me-1"></i>{{ suggestion.category }}
+              </span>
+              <span class="text-muted small">
+                <i class="bi bi-calendar3 me-1"></i>{{ suggestion.date | date:'dd/MM/yyyy' }}
+              </span>
+            </div>
+
+            <p class="card-text text-muted mb-4">{{ suggestion.description }}</p>
+
+            <!-- Action buttons -->
+            <div class="d-flex gap-2" *ngIf="suggestion.status !== 'refusee'">
+              <button 
+                class="btn btn-outline-primary flex-grow-1" 
+                (click)="likeSuggestion(suggestion)">
+                <i class="bi bi-hand-thumbs-up-fill me-2"></i>
+                J'aime
+                <span class="badge bg-primary ms-2">{{ suggestion.likes }}</span>
+              </button>
+              <button 
+                class="btn flex-grow-1" 
+                [ngClass]="{'btn-outline-danger': !suggestion.isFavorite, 'btn-danger': suggestion.isFavorite}"
+                (click)="addToFavorites(suggestion)">
+                <i class="bi me-2" 
+                   [ngClass]="{'bi-heart': !suggestion.isFavorite, 'bi-heart-fill': suggestion.isFavorite}"></i>
+                {{ suggestion.isFavorite ? 'Favori' : 'Favoris' }}
+              </button>
+            </div>
+            
+            <!-- Refused message -->
+            <div *ngIf="suggestion.status === 'refusee'" class="alert alert-danger mb-0">
+              <i class="bi bi-info-circle-fill me-2"></i>
+              Cette suggestion a été refusée
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="text-center py-5" *ngIf="filteredSuggestions.length === 0">
+      <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
+      <h3 class="text-muted mt-3">Aucune suggestion trouvée</h3>
+      <p class="text-muted">Essayez de modifier vos critères de recherche</p>
+    </div>
+
+    <!-- Favorites section -->
+    <div class="mt-5" *ngIf="favorites.length > 0">
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-primary text-white py-3">
+          <h4 class="mb-0">
+            <i class="bi bi-heart-fill me-2"></i>
+            Mes Favoris ({{ favorites.length }})
+          </h4>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group list-group-flush">
+            <div class="list-group-item d-flex justify-content-between align-items-center" 
+                 *ngFor="let fav of favorites">
+              <div>
+                <h6 class="mb-1 fw-bold">{{ fav.title }}</h6>
+                <small class="text-muted">
+                  <i class="bi bi-tag me-1"></i>{{ fav.category }}
+                </small>
+              </div>
+              <span class="badge bg-primary rounded-pill">
+                <i class="bi bi-hand-thumbs-up-fill me-1"></i>{{ fav.likes }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
