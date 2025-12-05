@@ -1,0 +1,45 @@
+<div class="container py-5" *ngIf="suggestion">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-lg">
+        <div class="card-header bg-primary text-white">
+          <h2 class="mb-0">
+            Détail de la Suggestion #{{ suggestion.id }}
+          </h2>
+        </div>
+        <div class="card-body p-5">
+          <h3 class="card-title text-primary fw-bold">{{ suggestion.title }}</h3>
+          
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <p><strong>Catégorie :</strong> <span class="badge bg-info">{{ suggestion.category }}</span></p>
+              <p><strong>Date :</strong> {{ suggestion.date | date:'dd MMMM yyyy' }}</p>
+              <p><strong>Statut :</strong> 
+                <span class="badge" 
+                      [ngClass]="{
+                        'bg-success': suggestion.status === 'acceptee',
+                        'bg-warning': suggestion.status === 'en_attente',
+                        'bg-danger': suggestion.status === 'refusee'
+                      }">
+                  {{ suggestion.status === 'acceptee' ? 'Acceptée' : suggestion.status === 'en_attente' ? 'En attente' : 'Refusée' }}
+                </span>
+              </p>
+              <p><strong>J'aimes :</strong> {{ suggestion.likes }}</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <h5>Description complète</h5>
+          <p class="lead">{{ suggestion.description }}</p>
+
+          <div class="mt-5">
+            <button class="btn btn-outline-primary btn-lg" (click)="backToList()">
+              Retour à la liste
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
