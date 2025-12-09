@@ -13,7 +13,7 @@ import { NotfoundComponent } from './core/notfound/notfound.component';
     HeaderComponent,
     FooterComponent,
               HomeComponent,
-          NotfoundComponent
+          NotfoundComponent,
   ],
   imports: [
     BrowserModule,

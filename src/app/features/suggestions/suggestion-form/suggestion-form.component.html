@@ -1,0 +1,163 @@
+<div class="form-page">
+  <div class="container">
+    <div class="form-wrapper">
+      
+      <!-- Form Card -->
+      <div class="form-card">
+        
+        <!-- Header -->
+        <div class="form-header">
+          <div class="header-content">
+            <h2 class="form-main-title">
+              <i class="bi bi-plus-circle-fill"></i>
+              Nouvelle Suggestion
+            </h2>
+            <p class="form-subtitle">Partagez vos idées avec la communauté</p>
+          </div>
+        </div>
+
+        <!-- Form Body -->
+        <div class="form-body">
+          
+          <!-- Helper Info -->
+          <div class="form-helper">
+            <i class="bi bi-info-circle-fill"></i>
+            <p class="helper-text">
+              Remplissez tous les champs obligatoires pour soumettre votre suggestion. 
+              Assurez-vous que votre titre soit clair et votre description détaillée.
+            </p>
+          </div>
+
+          <form [formGroup]="suggestionForm" (ngSubmit)="onSubmit()">
+            
+            <!-- TITRE -->
+            <div class="form-group">
+              <label for="title" class="form-label">
+                <i class="bi bi-pencil-fill"></i>
+                Titre <span class="required">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="title"
+                class="form-control" 
+                formControlName="title"
+                placeholder="Entrez le titre de votre suggestion">
+
+              <div class="error-messages">
+                <small class="text-danger" 
+                       *ngIf="f['title'].touched && f['title'].errors?.['required']">
+                  <i class="bi bi-exclamation-circle-fill"></i> Le titre est obligatoire
+                </small>
+
+                <small class="text-danger" 
+                       *ngIf="f['title'].errors?.['minlength']">
+                  <i class="bi bi-exclamation-circle-fill"></i> Le titre doit contenir au moins 5 caractères
+                </small>
+
+                <small class="text-danger" 
+                       *ngIf="f['title'].errors?.['pattern']">
+                  <i class="bi bi-exclamation-circle-fill"></i> Le titre doit commencer par une majuscule
+                </small>
+              </div>
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="form-group">
+              <label for="description" class="form-label">
+                <i class="bi bi-file-text-fill"></i>
+                Description <span class="required">*</span>
+              </label>
+              <textarea 
+                id="description"
+                class="form-control" 
+                formControlName="description"
+                rows="6"
+                placeholder="Décrivez votre suggestion en détail..."></textarea>
+
+              <div class="error-messages">
+                <small class="text-danger"
+                       *ngIf="f['description'].touched && f['description'].errors?.['required']">
+                  <i class="bi bi-exclamation-circle-fill"></i> La description est obligatoire
+                </small>
+
+                <small class="text-danger" 
+                       *ngIf="f['description'].errors?.['minlength']">
+                  <i class="bi bi-exclamation-circle-fill"></i> La description doit contenir au moins 30 caractères
+                </small>
+              </div>
+            </div>
+
+            <!-- CATEGORIE -->
+            <div class="form-group">
+              <label for="category" class="form-label">
+                <i class="bi bi-tag-fill"></i>
+                Catégorie <span class="required">*</span>
+              </label>
+              <select id="category" class="form-control form-select" formControlName="category">
+                <option value="">-- Choisir une catégorie --</option>
+                <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+              </select>
+
+              <div class="error-messages">
+                <small class="text-danger"
+                       *ngIf="f['category'].touched && f['category'].errors?.['required']">
+                  <i class="bi bi-exclamation-circle-fill"></i> La catégorie est obligatoire
+                </small>
+              </div>
+            </div>
+
+            <!-- DATE ET STATUS - ROW -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="date" class="form-label">
+                  <i class="bi bi-calendar3"></i>
+                  Date
+                </label>
+                <input 
+                  type="text"
+                  id="date"
+                  class="form-control readonly-badge" 
+                  formControlName="date" 
+                  readonly>
+              </div>
+
+              <div class="form-group">
+                <label for="status" class="form-label">
+                  <i class="bi bi-flag-fill"></i>
+                  Statut
+                </label>
+                <input 
+                  type="text"
+                  id="status"
+                  class="form-control readonly-badge" 
+                  formControlName="status" 
+                  readonly>
+              </div>
+            </div>
+
+            <!-- BOUTONS -->
+            <div class="form-actions">
+              <button 
+                class="btn-back" 
+                type="button"
+                routerLink="/suggestions">
+                <i class="bi bi-arrow-left-circle"></i>
+                Annuler
+              </button>
+              
+              <button 
+                class="btn-submit" 
+                type="submit"
+                [disabled]="suggestionForm.invalid">
+                <i class="bi bi-send-fill"></i>
+                Soumettre la suggestion
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

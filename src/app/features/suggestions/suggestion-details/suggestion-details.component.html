@@ -1,45 +1,121 @@
-<div class="container py-5" *ngIf="suggestion">
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card border-0 shadow-lg">
-        <div class="card-header bg-primary text-white">
-          <h2 class="mb-0">
-            Détail de la Suggestion #{{ suggestion.id }}
-          </h2>
+<div class="detail-page" *ngIf="suggestion">
+  <div class="container">
+    <div class="detail-wrapper">
+      
+      <!-- Header Card -->
+      <div class="detail-card">
+        <div class="detail-header">
+          <div class="header-content">
+            <span class="detail-id">Suggestion #{{ suggestion.id }}</span>
+            <h2 class="detail-main-title">Détail de la Suggestion</h2>
+          </div>
         </div>
-        <div class="card-body p-5">
-          <h3 class="card-title text-primary fw-bold">{{ suggestion.title }}</h3>
-          
-          <div class="row mt-4">
-            <div class="col-md-6">
-              <p><strong>Catégorie :</strong> <span class="badge bg-info">{{ suggestion.category }}</span></p>
-              <p><strong>Date :</strong> {{ suggestion.date | date:'dd MMMM yyyy' }}</p>
-              <p><strong>Statut :</strong> 
-                <span class="badge" 
+
+        <div class="detail-body">
+          <!-- Title Section -->
+          <div class="title-section">
+            <h3 class="suggestion-title">{{ suggestion.title }}</h3>
+          </div>
+
+          <!-- Info Grid -->
+          <div class="info-grid">
+            <div class="info-item">
+              <div class="info-label">
+                <i class="bi bi-tag-fill"></i>
+                Catégorie
+              </div>
+              <div class="info-value">
+                <span class="category-badge">{{ suggestion.category }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i class="bi bi-calendar3"></i>
+                Date
+              </div>
+              <div class="info-value date-value">
+                {{ suggestion.date | date:'dd MMMM yyyy' }}
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i class="bi bi-flag-fill"></i>
+                Statut
+              </div>
+              <div class="info-value">
+                <span class="status-badge" 
                       [ngClass]="{
-                        'bg-success': suggestion.status === 'acceptee',
-                        'bg-warning': suggestion.status === 'en_attente',
-                        'bg-danger': suggestion.status === 'refusee'
+                        'status-accepted': suggestion.status === 'acceptee',
+                        'status-pending': suggestion.status === 'en_attente',
+                        'status-refused': suggestion.status === 'refusee'
                       }">
-                  {{ suggestion.status === 'acceptee' ? 'Acceptée' : suggestion.status === 'en_attente' ? 'En attente' : 'Refusée' }}
+                  <i class="bi" 
+                     [ngClass]="{
+                       'bi-check-circle-fill': suggestion.status === 'acceptee',
+                       'bi-clock-fill': suggestion.status === 'en_attente',
+                       'bi-x-circle-fill': suggestion.status === 'refusee'
+                     }"></i>
+                  {{ suggestion.status === 'acceptee' ? 'Acceptée' : 
+                     suggestion.status === 'en_attente' ? 'En Attente' : 'Refusée' }}
                 </span>
-              </p>
-              <p><strong>J'aimes :</strong> {{ suggestion.likes }}</p>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="info-label">
+                <i class="bi bi-heart-fill"></i>
+                J'aimes
+              </div>
+              <div class="info-value likes-value">
+                <span class="likes-badge">
+                  <i class="bi bi-hand-thumbs-up-fill"></i>
+                  {{ suggestion.likes }}
+                </span>
+              </div>
             </div>
           </div>
 
-          <hr>
+          <!-- Navigation Buttons -->
+          <div class="navigation-buttons">
+            <button class="btn-nav btn-previous" (click)="goPrevious()">
+              <i class="bi bi-chevron-left"></i>
+              Précédent
+            </button>
 
-          <h5>Description complète</h5>
-          <p class="lead">{{ suggestion.description }}</p>
+            <button class="btn-nav btn-next" (click)="goNext()">
+              Suivant
+              <i class="bi bi-chevron-right"></i>
+            </button>
 
-          <div class="mt-5">
-            <button class="btn btn-outline-primary btn-lg" (click)="backToList()">
+            <button class="btn-nav btn-back" (click)="backToList()">
+              <i class="bi bi-arrow-left"></i>
+              Retour à la liste
+            </button>
+          </div>
+
+          <!-- Description Section -->
+          <div class="description-section">
+            <div class="section-header">
+              <i class="bi bi-file-text"></i>
+              <h5 class="section-title">Description complète</h5>
+            </div>
+            <div class="description-content">
+              <p class="description-text">{{ suggestion.description }}</p>
+            </div>
+          </div>
+
+          <!-- Footer Action -->
+          <div class="footer-action">
+            <button class="btn-back-large" (click)="backToList()">
+              <i class="bi bi-arrow-left-circle"></i>
               Retour à la liste
             </button>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

@@ -1,36 +1,75 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
-  <div class="container-fluid">
-    <a class="navbar-brand fw-bold fs-3" href="#">
-      <i class="bi bi-lightbulb-fill text-warning me-2"></i>
-      Workshop Suggestions
+<nav class="modern-navbar">
+  <div class="navbar-container">
+    <!-- Logo/Brand -->
+    <a class="navbar-brand" routerLink="/home">
+      <div class="brand-icon">
+        <i class="bi bi-lightbulb-fill"></i>
+      </div>
+      <div class="brand-text">
+        <span class="brand-title">Workshop</span>
+        <span class="brand-subtitle">Suggestions</span>
+      </div>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggle" type="button" id="navbarToggle">
+      <span class="toggle-line"></span>
+      <span class="toggle-line"></span>
+      <span class="toggle-line"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
+
+    <!-- Navigation Links -->
+    <div class="navbar-menu" id="navbarMenu">
+      <ul class="nav-links">
         <li class="nav-item">
-          <!-- Utilisation de routerLink pour Angular -->
-          <a class="nav-link active" routerLink="/home">
-            <i class="bi bi-house-fill me-1"></i>Accueil
+          <a class="nav-link" routerLink="/home" routerLinkActive="active">
+            <i class="bi bi-house-fill"></i>
+            <span>Accueil</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/listSuggestion">
-            <i class="bi bi-list-stars me-1"></i>Suggestions
+          <a class="nav-link" routerLink="/suggestions" routerLinkActive="active">
+            <i class="bi bi-list-stars"></i>
+            <span>Suggestions</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-heart-fill me-1"></i>Favoris
+          <a class="nav-link" href="#" routerLinkActive="active">
+            <i class="bi bi-heart-fill"></i>
+            <span>Favoris</span>
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
-            <i class="bi bi-person-circle me-1"></i>Profil
+          <a class="nav-link" href="#" routerLinkActive="active">
+            <i class="bi bi-person-circle"></i>
+            <span>Profil</span>
           </a>
         </li>
       </ul>
+
+      <!-- Action Button -->
+      <div class="navbar-actions">
+        <button class="btn-add-new" routerLink="/suggestions/add">
+          <i class="bi bi-plus-circle-fill"></i>
+          <span>Nouvelle Suggestion</span>
+        </button>
+      </div>
     </div>
   </div>
 </nav>
+
+<!-- Add this script at the end of your component or in a separate TS file -->
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('navbarToggle');
+    const menu = document.getElementById('navbarMenu');
+    
+    if (toggle && menu) {
+      toggle.addEventListener('click', function() {
+        menu.classList.toggle('active');
+        toggle.classList.toggle('active');
+      });
+    }
+  });
+</script>
